@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RFID Attendance – System Configuration</title>
+<link rel="stylesheet" href="./rfid_system_configuration.css">
+</head>
+
+<body>
+
+<h1>RFID Attendance – System Configuration 
+<button class="theme-btn" onclick="toggleTheme()">Toggle Theme</button>
+</h1>
+
+<div class="container">
+
+<div class="section">
+<h3>General Settings</h3>
+<input type="text" id="systemName" placeholder="System Name">
+<input type="text" id="institutionName" placeholder="Institution Name">
+<select id="language">
+<option>English</option>
+<option>Hindi</option>
+</select>
+</div>
+
+<div class="section">
+<h3>Academic Settings</h3>
+<input type="text" id="academicYear" placeholder="Academic Year (2025-2026)">
+<select id="semester">
+<option>Semester 1</option>
+<option>Semester 2</option>
+<option>Semester 3</option>
+<option>Semester 4</option>
+<option>Semester 5</option>
+<option>Semester 6</option>
+<option>Semester 7</option>
+<option>Semester 8</option>
+</select>
+</div>
+
+<div class="section">
+<h3>Attendance Rules</h3>
+<label>Late Threshold (minutes):</label><br>
+<input type="number" id="lateThreshold" value="10"><br>
+<label>Minimum Attendance Required (%):</label><br>
+<input type="number" id="minAttendance" value="75">
+</div>
+
+<div class="section">
+<h3>Security Settings</h3>
+<label>Auto Logout (minutes):</label><br>
+<input type="number" id="autoLogout" value="15"><br>
+<input type="password" id="adminPassword" placeholder="New Admin Password"><br>
+<input type="checkbox" id="twoFactor"> Enable Two-Factor Authentication
+</div>
+
+<div class="section">
+<h3>Notification Settings</h3>
+<input type="checkbox" id="notifyLow" checked> Low Attendance Alerts<br>
+<input type="checkbox" id="notifyDevice" checked> Device Offline Alerts<br>
+<input type="checkbox" id="emailReports"> Email Reports
+</div>
+
+<button class="save-btn" onclick="saveConfig()">Save Configuration</button>
+<button class="reset-btn" onclick="openModal()">Reset</button>
+
+<div class="success" id="successMsg">
+✔ Configuration Saved Successfully!
+</div>
+
+</div>
+
+<div class="modal" id="resetModal">
+<div class="modal-content">
+<p>Are you sure you want to reset all settings?</p>
+<button onclick="resetConfig()" class="save-btn">Yes</button>
+<button onclick="closeModal()" class="reset-btn">Cancel</button>
+</div>
+</div>
+
+<script src="./rfid_system_configuration.js" defer></script>
+</body>
+</html>

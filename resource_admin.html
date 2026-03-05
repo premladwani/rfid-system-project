@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RFID Attendance – Resource Administration</title>
+
+<!-- Link CSS (relative path to same directory) -->
+<link rel="stylesheet" href="./resource_admin.css">
+</head>
+
+<body>
+
+<h1>RFID Attendance – Resource Administration</h1>
+
+<div class="container">
+
+<div class="theme-toggle">
+<button onclick="toggleTheme()" id="themeBtn" class="btn-primary">☀ Light Mode</button>
+</div>
+
+<div class="rfid-status">
+RFID Reader: <span class="green-dot"></span> Connected |
+Last UID: <span id="lastUID">None</span>
+</div>
+
+<div class="dashboard">
+<div class="card">Total Resources<h2 id="totalCount">0</h2></div>
+<div class="card">Active<h2 id="activeCount">0</h2></div>
+<div class="card">Inactive<h2 id="inactiveCount">0</h2></div>
+</div>
+
+<div class="controls">
+<input type="text" id="searchInput" placeholder="Search Name / RFID / Mobile No.">
+<select id="filterType">
+<option value="">All Types</option>
+<option>Student</option>
+<option>Staff</option>
+</select>
+<button class="btn-primary" onclick="openModal()">+ Add Resource</button>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>RFID</th>
+<th>Type</th>
+<th>Email</th>
+<th>Mobile No.</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3>Add Resource</h3>
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="rfid" placeholder="RFID UID">
+<select id="type">
+<option>Student</option>
+<option>Staff</option>
+</select>
+<input type="email" id="email" placeholder="Email">
+<input type="text" id="mobile" placeholder="Mobile No.">
+<select id="status">
+<option value="Active">Active</option>
+<option value="Inactive">Inactive</option>
+</select>
+<button class="btn-success" onclick="saveResource()">Save</button>
+<button class="btn-danger" onclick="closeModal()">Cancel</button>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Link JavaScript (deferred to ensure DOM ready) -->
+<script src="./resource_admin.js" defer></script>
+
+</body>
+</html>
