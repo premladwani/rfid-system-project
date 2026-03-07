@@ -1,0 +1,144 @@
+/* Footer Theme Variables */
+:root {
+  --footer-bg-light: #f3f7fb;
+  --footer-bg-dark: #1e293b;
+  --footer-text-light: #1e293b;
+  --footer-text-dark: #f8fafc;
+  --footer-muted-light: #64748b;
+  --footer-muted-dark: #94a3b8;
+  --footer-accent-light: #2563eb;
+  --footer-accent-dark: #3b82f6;
+}
+
+.srfid-footer {
+  background: var(--footer-bg-light);
+  padding: 36px 0 24px 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 16px;
+  color: var(--footer-text-light);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 8px rgba(30,41,59,0.04);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark theme for footer */
+body.dark .srfid-footer {
+  background: var(--footer-bg-dark);
+  color: var(--footer-text-dark);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.srfid-footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 32px;
+  align-items: flex-start;
+}
+.srfid-footer-col { min-width: 220px; }
+.srfid-footer-left h3 {
+  margin: 0 0 2px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #183153;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.dark .srfid-footer-left h3 {
+  color: #f1f5f9;
+}
+.footer-brand { font-weight: 700; }
+.footer-muted { 
+  color: var(--footer-muted-light); 
+  font-size: 15px; 
+  margin-bottom: 12px; 
+}
+
+body.dark .footer-muted {
+  color: var(--footer-muted-dark);
+}
+.footer-section-title {
+  font-weight: 600;
+  color: #334155;
+  margin: 18px 0 8px 0;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+body.dark .footer-section-title {
+  color: #cbd5e1;
+}
+.footer-contact-row { 
+  margin: 4px 0; 
+  color: var(--footer-text-light); 
+  font-size: 15px; 
+}
+
+body.dark .footer-contact-row {
+  color: var(--footer-text-dark);
+}
+.footer-link { 
+  color: var(--footer-accent-light); 
+  text-decoration: underline; 
+  font-size: 15px; 
+}
+
+body.dark .footer-link {
+  color: var(--footer-accent-dark);
+}
+.srfid-footer-center .footer-section-title { margin-top: 0; }
+.footer-nav-list { list-style: none; padding: 0; margin: 0; }
+.footer-nav-list li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 7px 0;
+  font-size: 15px;
+}
+.footer-dot {
+  width: 8px; 
+  height: 8px; 
+  background: var(--footer-accent-light); 
+  border-radius: 50%; 
+  display: inline-block;
+}
+
+body.dark .footer-dot {
+  background: var(--footer-accent-dark);
+}
+.footer-icon { font-size: 17px; }
+.srfid-footer-right .footer-info-row { margin: 6px 0; font-size: 15px; }
+.footer-small { 
+  color: var(--footer-muted-light); 
+  font-size: 13px; 
+  font-weight: 400; 
+}
+
+body.dark .footer-small {
+  color: var(--footer-muted-dark);
+}
+.footer-status { color: #16a34a; font-weight: 600; }
+.footer-social-row { margin-top: 8px; display: flex; gap: 16px; }
+.footer-social-link { 
+  display: inline-flex; 
+  align-items: center; 
+  font-size: 17px; 
+  text-decoration: none; 
+  color: var(--footer-accent-light);
+}
+
+body.dark .footer-social-link {
+  color: var(--footer-accent-dark);
+}
+
+.footer-social-link:hover { 
+  opacity: 0.8; 
+}
+@media (max-width: 900px) {
+  .srfid-footer-container { grid-template-columns: 1fr; gap: 18px; }
+  .srfid-footer-col { min-width: 0; }
+}
