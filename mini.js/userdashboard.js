@@ -421,22 +421,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     // Form actions
     document.getElementById('saveBtn').addEventListener('click', () => {
         saveUser();
-        playClick();
     });
 
     document.getElementById('resetBtn').addEventListener('click', () => {
         resetDashboard();
-        playClick();
     });
 
     document.getElementById('downloadBtn').addEventListener('click', () => {
         downloadReport();
-        playClick();
     });
 
     document.getElementById('themeToggle').addEventListener('click', () => {
         toggleTheme();
-        playClick();
     });
 
     // Save notes button

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reports & Export</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../style.css/report.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+<h2>Admin Panel</h2>
+
+<div class="nav-links">
+<a href="#">Dashboard</a>
+<a href="#">Reports</a>
+<a href="#">Analytics</a>
+<a href="#">Settings</a>
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="summary">
+
+<div class="card">
+<h3>Total Records</h3>
+<p id="totalCount">0</p>
+</div>
+
+<div class="card">
+<h3>Active</h3>
+<p id="activeCount">0</p>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<p id="pendingCount">0</p>
+</div>
+
+</div>
+
+<div class="filters">
+
+<input type="date" id="startDate">
+
+<input type="date" id="endDate">
+
+<input type="text" id="searchInput" placeholder="Search">
+
+<button onclick="applyFilter()">Apply</button>
+
+</div>
+
+<div class="export-section">
+
+<button onclick="exportCSV()">Export CSV</button>
+
+<button onclick="exportPDF()">Export PDF</button>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th onclick="sortData('id')">ID</th>
+<th onclick="sortData('name')">Name</th>
+<th onclick="sortData('branch')">Branch</th>
+<th onclick="sortData('section')">Section</th>
+<th onclick="sortData('inTime')">In Time</th>
+<th onclick="sortData('outTime')">Out Time</th>
+<th onclick="sortData('date')">Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+<div id="emptyMessage" class="empty"></div>
+
+</div>
+
+</div>
+
+<script src="../mini.js/report.js"></script>
+
+</body>
+</html>
+

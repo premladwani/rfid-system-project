@@ -56,7 +56,7 @@ function initializePage() {
 
 function setupEventListeners() {
     // Search functionality
-    document.getElementById('searchInput')?.addEventListener('keyup', filterTable);
+    document.getElementById('tableSearchInput')?.addEventListener('keyup', filterTable);
     
     // Role filter
     document.getElementById('roleFilter')?.addEventListener('change', filterTable);
@@ -385,7 +385,7 @@ function deleteAdmin(btn) {
 }
 
 function filterTable() {
-    const searchText = document.getElementById('searchInput').value.toLowerCase();
+    const searchText = document.getElementById('tableSearchInput').value.toLowerCase();
     const roleFilter = document.getElementById('roleFilter').value;
     const statusFilter = document.getElementById('statusFilter').value;
     

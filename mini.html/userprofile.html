@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Account</title>
+
+<link rel="stylesheet" href="../style.css/userprofile.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<h1 class="title">User Profile</h1>
+
+<div class="container">
+
+<!-- PROFILE SECTION -->
+
+<div class="section">
+
+<h2>Profile Information</h2>
+
+<div class="form-grid">
+
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<input id="phone" placeholder="Phone">
+<input id="rfid" placeholder="RFID ID">
+<input id="department" placeholder="Department">
+<input id="role" placeholder="Role">
+
+</div>
+
+<button onclick="updateProfile()">Update Profile</button>
+
+</div>
+
+
+<!-- PASSWORD -->
+
+<div class="section">
+
+<h2>Change Password</h2>
+
+<div class="form-grid">
+
+<input type="password" id="oldPass" placeholder="Old Password">
+<input type="password" id="newPass" placeholder="New Password">
+
+</div>
+
+<button onclick="changePassword()">Change Password</button>
+
+</div>
+
+
+<!-- ATTENDANCE SUMMARY -->
+
+<div class="section">
+
+<h2>Attendance Summary</h2>
+
+<div class="summary">
+
+<div class="card">
+<h3>Present</h3>
+<p id="presentCount">0</p>
+</div>
+
+<div class="card">
+<h3>Absent</h3>
+<p id="absentCount">0</p>
+</div>
+
+<div class="card">
+<h3>Late</h3>
+<p id="lateCount">0</p>
+</div>
+
+<div class="card">
+<h3>Attendance %</h3>
+<p id="percentage">0%</p>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ATTENDANCE HISTORY -->
+
+<div class="section">
+
+<h2>Attendance History</h2>
+
+<input type="date" id="searchDate">
+
+<button onclick="filterHistory()">Search</button>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Check In</th>
+<th>Check Out</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="historyTable"></tbody>
+
+</table>
+
+</div>
+
+
+<!-- HELP SUPPORT -->
+
+<div class="section">
+
+<h2>Help & Support</h2>
+
+<textarea id="supportMessage" placeholder="Describe your issue"></textarea>
+
+<button onclick="sendSupport()">Send Request</button>
+
+</div>
+
+
+<!-- LOGOUT -->
+
+<div class="logout">
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+</div>
+
+<script src="../mini.js/userprofile.js"></script>
+
+</body>
+</html>
+
+
+

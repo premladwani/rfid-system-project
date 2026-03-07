@@ -5,36 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin User Management</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css/nav.css">
 <link rel="stylesheet" href="../style.css/usermanagement.css">
+<link rel="stylesheet" href="../style.css/footer.css">
 </head>
 
 <body>
 
-<!-- Dark Mode Toggle Button -->
-<button class="dark-mode-toggle" id="darkModeBtn" title="Toggle Dark Mode">
-    <i class="fas fa-moon"></i>
-</button>
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="rfid-btn" onclick="toggleSidebar()">
+        <img src="https://cdn-icons-png.flaticon.com/512/891/891419.png" alt="RFID Logo">
+        <span>RFID</span>
+    </div>
+</div>
 
-<!-- Navigation Header -->
-<nav class="navbar">
-    <div class="nav-container">
-        <h1 class="nav-title"><i class="fas fa-users-cog"></i> Admin User Management</h1>
-        <div class="nav-stats">
-            <div class="stat-card">
-                <span class="stat-label">Total Admins</span>
-                <span class="stat-value" id="totalAdmins">1</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Active</span>
-                <span class="stat-value active-badge" id="activeAdmins">1</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Inactive</span>
-                <span class="stat-value inactive-badge" id="inactiveAdmins">0</span>
-            </div>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>RFID Panel</h2>
+        <span class="close-btn" onclick="toggleSidebar()">✕</span>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search">
+        <input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+    </div>
+
+    <!-- NAV LINKS -->
+    <div class="nav-links">
+        <a href="#">🏠 Dashboard</a>
+        <a href="#">👤 User Dashboard</a>
+        <a href="#">🛠 Admin Dashboard</a>
+        <a href="#" class="active">👥 User Management</a>
+        <a href="#">📦 Resource Admin</a>
+        <a href="#">⚙ System Config</a>
+        <a href="#">📊 Reports & Export</a>
+        <a href="#">🔔 Notifications <span class="badge">3</span></a>
+        <a href="#">🧾 Audit Logs</a>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="profile">
+        <img src="https://i.pravatar.cc/100" alt="Admin Profile">
+        <div class="profile-info">
+            <div>Admin</div>
+            <div style="font-size:13px;opacity:0.7;">System Manager</div>
         </div>
     </div>
-</nav>
+
+    <button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+</div>
+
+<!-- Page Content Header -->
+<div style="padding: 20px; border-bottom: 1px solid #e0e0e0;">
+    <h1 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-users-cog"></i> Admin User Management
+    </h1>
+</div>
 
 <div class="container">
 
@@ -67,7 +96,7 @@
         <div class="search-filter-group">
             <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search by name, email, or role...">
+                <input type="text" id="tableSearchInput" placeholder="Search by name, email, or role...">
             </div>
 
             <div class="filter-group">
@@ -296,26 +325,41 @@
     </div>
 </div>
 
+<!-- ================= SMART RFID FOOTER ================= -->
+<footer class="srfid-footer" aria-label="Site footer">
+  <div class="srfid-footer-container" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start;padding-left:24px;margin-left:0;width:100%;max-width:none;">
+    <div class="srfid-footer-col srfid-footer-left" style="justify-self:start;margin-left:0;padding-left:0;">
+      <h3><span class="footer-icon">🏢</span> <span class="footer-brand">SmartRFID Technologies Pvt. Ltd.</span></h3>
+      <div class="footer-muted">🔒 Secure & Intelligent Attendance Solutions</div>
+      <div class="footer-section-title">📞 Contact & Support</div>
+      <div class="footer-contact-row"><span class="footer-icon">✉️</span> support@smartrfid.com</div>
+      <div class="footer-contact-row"><span class="footer-icon">📱</span> +91-99999 99999</div>
+      <div class="footer-contact-row"><span class="footer-icon">⏰</span> Mon–Sat | 9:00 AM – 6:00 PM</div>
+    </div>
+    <div class="srfid-footer-col srfid-footer-center" style="justify-self:center;">
+      <div class="footer-section-title">🔗 Quick Navigation</div>
+      <ul class="footer-nav-list">
+        <li><span class="footer-dot"></span> <span class="footer-icon">📊</span> <a href="#">Dashboard</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🧾</span> <a href="#">Attendance Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">📈</span> <a href="#">Reports</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🖥️</span> <a href="#">Device Management</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🔍</span> <a href="#">Audit Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">👤</span> <a href="#">Admin Panel</a></li>
+      </ul>
+    </div>
+    <div class="srfid-footer-col srfid-footer-right" style="justify-self:end;margin-right:0;padding-right:0;width:100%;">
+      <div class="footer-section-title">🛰️ System Info</div>
+      <div class="footer-info-row">Version: <b>2.3.1</b> <span class="footer-small">(Last updated 2026-02-15)</span></div>
+      <div class="footer-info-row">Server: <span class="footer-status">Operational</span></div>
+      <div class="footer-info-row">Current Time: <span id="footerTime" class="footer-small"></span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="../mini.js/nav.js"></script>
+<script src="../mini.js/footer.js"></script>
 <script src="../mini.js/usermanagement.js"></script>
 
 </body>
 
-</html>
-
-<option>Active</option>
-<option>Suspended</option>
-<option>Pending</option>
-
-</select>
-
-<button onclick="addAdmin()">Add Admin</button>
-
-<button class="cancel" onclick="closeForm()">Cancel</button>
-
-</div>
-
-
-<script src="../mini.js/usermanagement.js"></script>
-
-</body>
 </html>
