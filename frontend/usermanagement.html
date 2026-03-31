@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin User Management</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/usermanagement.css">
+<link rel="stylesheet" href="css/footer.css">
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="rfid-btn" onclick="toggleSidebar()">
+        <div class="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>RFID Panel</h2>
+        <span class="close-btn" onclick="toggleSidebar()">✕</span>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search">
+        <input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+    </div>
+
+    <!-- NAV LINKS -->
+    <div class="nav-links">
+        <a href="dashboard.html">🏠 Dashboard</a>
+        <a href="usermanagement.html" class="active">👥 User Management</a>
+        <a href="resource_admin.html">📦 Resource Admin</a>
+        <a href="rfid_system_configuration.html">⚙ System Config</a>
+        <a href="report.html">📊 Reports & Export</a>
+        <a href="register_new_user.html" class="active">➕ Register User</a>
+        <a href="audit.html">🧾 Audit Logs</a>
+    </div>
+
+    <!-- LOGOUT BUTTON -->
+    <div class="logout-section">
+        <button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+    </div>
+
+    <!-- PROFILE -->
+    <a href="Adminprofile.html" class="profile">
+        <img src="https://i.pravatar.cc/100" alt="Admin Profile">
+        <div class="profile-info">
+            <div id="sidebarAdminName">Admin</div>
+            <div id="sidebarAdminRole" style="font-size:13px;opacity:0.7;">System Manager</div>
+        </div>
+    </a>
+</div>
+
+<!-- Page Content Header -->
+<div style="padding: 20px; border-bottom: 1px solid #e0e0e0;">
+    <h1 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+        <i class="fas fa-users-cog"></i> Admin User Management
+    </h1>
+</div>
+
+<div class="container">
+
+    <!-- Dashboard Stats Section -->
+    <div class="stats-grid">
+        <div class="stat-box super-admin">
+            <i class="fas fa-crown"></i>
+            <h3>Super Admins</h3>
+            <p id="superAdminCount">1</p>
+        </div>
+        <div class="stat-box system-admin">
+            <i class="fas fa-shield-alt"></i>
+            <h3>System Admins</h3>
+            <p id="systemAdminCount">0</p>
+        </div>
+        <div class="stat-box operations-admin">
+            <i class="fas fa-cogs"></i>
+            <h3>Operations</h3>
+            <p id="operationsAdminCount">0</p>
+        </div>
+        <div class="stat-box analyst">
+            <i class="fas fa-chart-line"></i>
+            <h3>Analysts</h3>
+            <p id="analystCount">0</p>
+        </div>
+    </div>
+
+    <!-- Controls Section -->
+    <div class="controls-section">
+        <div class="search-filter-group">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="tableSearchInput" placeholder="Search by name, email, or role...">
+            </div>
+
+            <div class="filter-group">
+                <select id="roleFilter" class="filter-select">
+                    <option value="">All Roles</option>
+                    <option>Super Admin</option>
+                    <option>System Admin</option>
+                    <option>Operations Admin</option>
+                    <option>Analyst</option>
+                    <option>Auditor</option>
+                </select>
+
+                <select id="statusFilter" class="filter-select">
+                    <option value="">All Status</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-primary add-btn" onclick="openForm()">
+            <i class="fas fa-plus"></i> Add Administrator
+        </button>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table id="adminTable" class="admin-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"> ID</th>
+                        <th>Profile</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                        <th>Last Login</th>
+                        <th>Permissions</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="adminList">
+                    <tr class="admin-row" data-id="1">
+                        <td><input type="checkbox" class="row-checkbox"> 1</td>
+                        <td>
+                            <div class="profile-cell">
+                                <img src="https://via.placeholder.com/40/FF6B6B/ffffff?text=JS" alt="John Smith" class="avatar">
+                                <div class="profile-info">
+                                    <span class="name">John Smith</span>
+                                    <span class="role-badge super-admin-badge">Super Admin</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><a href="mailto:john@company.com">john@company.com</a></td>
+                        <td><span class="role-tag super-admin">Super Admin</span></td>
+                        <td>IT</td>
+                        <td><span class="status-badge active">Active</span></td>
+                        <td><span class="last-login">Today</span></td>
+                        <td>
+                            <span class="permission-badge">Read</span>
+                            <span class="permission-badge">Write</span>
+                            <span class="permission-badge">Delete</span>
+                        </td>
+                        <td class="actions-cell">
+                            <button class="btn-action edit" title="Edit" onclick="editAdmin(this)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action view" title="View Details" onclick="viewAdmin(this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action delete" title="Delete" onclick="deleteAdmin(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-footer">
+            <p id="recordCount">Showing 1 record</p>
+        </div>
+    </div>
+
+    <!-- Bulk Actions -->
+    <div class="bulk-actions" id="bulkActions" style="display: none;">
+        <button class="btn-secondary" onclick="bulkDelete()">
+            <i class="fas fa-trash"></i> Delete Selected
+        </button>
+        <button class="btn-secondary" onclick="bulkStatusChange('Active')">
+            <i class="fas fa-check"></i> Mark as Active
+        </button>
+        <button class="btn-secondary" onclick="bulkStatusChange('Inactive')">
+            <i class="fas fa-ban"></i> Mark as Inactive
+        </button>
+    </div>
+
+</div>
+
+
+<!-- Add/Edit Admin Modal -->
+<div class="modal-overlay" id="adminFormOverlay" onclick="closeForm(event)">
+    <div class="modal" id="adminForm" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2 id="formTitle">Add Administrator</h2>
+            <button class="close-btn" onclick="closeForm()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form class="admin-form" onsubmit="addAdmin(event)">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" placeholder="Enter full name" required>
+                <i class="fas fa-user form-icon"></i>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" placeholder="Enter email address" required>
+                <i class="fas fa-envelope form-icon"></i>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="role">Role *</label>
+                    <select id="role" required>
+                        <option value="">Select Role</option>
+                        <option>Super Admin</option>
+                        <option>System Admin</option>
+                        <option>Operations Admin</option>
+                        <option>Analyst</option>
+                        <option>Auditor</option>
+                    </select>
+                    <i class="fas fa-shield-alt form-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department *</label>
+                    <input type="text" id="department" placeholder="Enter department" required>
+                    <i class="fas fa-building form-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="role">Role *</label>
+                    <select id="role" required>
+                        <option value="">Select Role</option>
+                        <option>Super Admin</option>
+                        <option>System Admin</option>
+                        <option>Operations Admin</option>
+                        <option>Analyst</option>
+                        <option>Auditor</option>
+                    </select>
+                    <i class="fas fa-shield-alt form-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department *</label>
+                    <input type="text" id="department" placeholder="Enter department" required>
+                    <i class="fas fa-building form-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="status">Status *</label>
+                    <select id="status" required>
+                        <option value="">Select Status</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                    <i class="fas fa-toggle-on form-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" placeholder="Phone number">
+                    <i class="fas fa-phone form-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="permissions">Permissions</label>
+                <div class="permissions-grid">
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="Read"> Read
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="Write"> Write
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="Delete"> Delete
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="Approve"> Approve
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Save Administrator
+                </button>
+                <button type="button" class="btn-cancel" onclick="closeForm()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- View Details Modal -->
+<div class="modal-overlay" id="viewModalOverlay" onclick="closeViewModal(event)">
+    <div class="modal view-modal" id="viewModal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Administrator Details</h2>
+            <button class="close-btn" onclick="closeViewModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="details-content" id="detailsContent">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<!-- ================= SMART RFID FOOTER ================= -->
+<footer class="srfid-footer" aria-label="Site footer">
+  <div class="srfid-footer-container" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start;padding-left:24px;margin-left:0;width:100%;max-width:none;">
+    <div class="srfid-footer-col srfid-footer-left" style="justify-self:start;margin-left:0;padding-left:0;">
+      <h3><span class="footer-icon">🏢</span> <span class="footer-brand">SmartRFID Technologies Pvt. Ltd.</span></h3>
+      <div class="footer-muted">🔒 Secure & Intelligent Attendance Solutions</div>
+      <div class="footer-section-title">📞 Contact & Support</div>
+      <div class="footer-contact-row"><span class="footer-icon">✉️</span> support@smartrfid.com</div>
+      <div class="footer-contact-row"><span class="footer-icon">📱</span> +91-99999 99999</div>
+      <div class="footer-contact-row"><span class="footer-icon">⏰</span> Mon–Sat | 9:00 AM – 6:00 PM</div>
+    </div>
+    <div class="srfid-footer-col srfid-footer-center" style="justify-self:center;">
+      <div class="footer-section-title">🔗 Quick Navigation</div>
+      <ul class="footer-nav-list">
+        <li><span class="footer-dot"></span> <span class="footer-icon">📊</span> <a href="#">Dashboard</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🧾</span> <a href="#">Attendance Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">📈</span> <a href="#">Reports</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🖥️</span> <a href="#">Device Management</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🔍</span> <a href="#">Audit Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">👤</span> <a href="#">Admin Panel</a></li>
+      </ul>
+    </div>
+    <div class="srfid-footer-col srfid-footer-right" style="justify-self:end;margin-right:0;padding-right:0;width:100%;">
+      <div class="footer-section-title">🛰️ System Info</div>
+      <div class="footer-info-row">Version: <b>2.3.1</b> <span class="footer-small">(Last updated 2026-02-15)</span></div>
+      <div class="footer-info-row">Server: <span class="footer-status">Operational</span></div>
+      <div class="footer-info-row">Current Time: <span id="footerTime" class="footer-small"></span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/usermanagement.js"></script>
+
+<script>
+// Update admin profile when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const adminData = localStorage.getItem('currentAdmin');
+    if (adminData) {
+        const admin = JSON.parse(adminData);
+        const sidebarAdminName = document.getElementById('sidebarAdminName');
+        const sidebarAdminRole = document.getElementById('sidebarAdminRole');
+        
+        if (sidebarAdminName) sidebarAdminName.textContent = admin.fullName || 'Admin';
+        if (sidebarAdminRole) sidebarAdminRole.textContent = admin.role || 'System Manager';
+    }
+});
+</script>
+
+</body>
+
+</html>

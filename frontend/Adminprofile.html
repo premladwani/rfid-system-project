@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Profile</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/adminprofile.css">
+<link rel="stylesheet" href="css/footer.css">
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="rfid-btn" onclick="toggleSidebar()">
+<div class="hamburger-menu">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h2>RFID Panel</h2>
+<span class="close-btn" onclick="toggleSidebar()">✕</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+</div>
+
+<!-- NAV LINKS -->
+<div class="nav-links">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="usermanagement.html">👥 User Management</a>
+<a href="resource_admin.html">📦 Resource Admin</a>
+<a href="rfid_system_configuration.html">⚙ System Config</a>
+<a href="report.html">📊 Reports & Export</a>
+<a href="audit.html">🧾 Audit Logs</a>
+</div>
+
+<!-- LOGOUT BUTTON -->
+<div class="logout-section">
+<button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+</div>
+
+<!-- PROFILE -->
+<div class="profile">
+<img src="https://i.pravatar.cc/100">
+<div class="profile-info">
+<div id="sidebarAdminName">Admin</div>
+<div id="sidebarAdminRole" style="font-size:13px;opacity:0.7;">System Manager</div>
+</div>
+</div>
+</div>
+
+<div class="container">
+
+<div class="profile-header">
+
+<div>
+
+<div class="avatar" id="avatarPreview">A</div>
+
+<label class="upload-btn">
+Upload Photo
+<input type="file" id="avatarInput" hidden>
+</label>
+
+</div>
+
+<div>
+
+<h2 id="displayName">Admin User</h2>
+<p id="displayEmail">admin@company.com</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Security Overview</h3>
+
+<p>Security Score</p>
+
+<div class="security-score">85%</div>
+
+<ul>
+<li>Strong Password ✔</li>
+<li>Email Verified ✔</li>
+<li>Two Factor Disabled ⚠</li>
+<li>Backup Codes Not Generated ⚠</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h3>Admin Role & Permissions</h3>
+
+<p class="role">Role: Super Administrator</p>
+
+<div class="permissions">
+
+<span>Manage Resources</span>
+<span>View Analytics</span>
+<span>Export Reports</span>
+<span>Admin Management</span>
+<span>System Settings</span>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Profile Information</h3>
+
+<div class="grid">
+
+<input id="name" value="Admin User">
+<input id="email" value="admin@company.com">
+
+<input placeholder="Department" value="IT Administration">
+<input placeholder="Contact" value="+91 9876543210">
+
+</div>
+
+<button onclick="saveProfile()">Save Changes</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>Change Password</h3>
+
+<div class="grid">
+
+<input type="password" placeholder="Current Password">
+<input type="password" placeholder="New Password">
+
+<input type="password" placeholder="Confirm Password">
+
+</div>
+
+<button>Password Update</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>Two-Factor Authentication</h3>
+
+<label class="toggle">
+
+<input type="checkbox" id="2fa">
+
+Enable Two-Factor Authentication
+
+</label>
+
+<button>Save Security Settings</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>Notification Preferences</h3>
+
+<label class="toggle">
+
+<input type="checkbox" checked>
+Email Alerts
+
+</label>
+
+<label class="toggle">
+
+<input type="checkbox" checked>
+System Notifications
+
+</label>
+
+<button>Save Preferences</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>Login Activity</h3>
+
+<table>
+
+<tr>
+<th>Date</th>
+<th>IP</th>
+<th>Location</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>12 Feb</td>
+<td>192.168.1.10</td>
+<td>Pune</td>
+<td>Success</td>
+</tr>
+
+<tr>
+<td>11 Feb</td>
+<td>192.168.1.21</td>
+<td>Mumbai</td>
+<td>Failed</td>
+</tr>
+
+<tr>
+<td>10 Feb</td>
+<td>192.168.1.18</td>
+<td>Delhi</td>
+<td>Success</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h3>Active Sessions</h3>
+
+<table>
+
+<tr>
+<th>Device</th>
+<th>Location</th>
+<th>Last Active</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>Chrome Windows</td>
+<td>Pune</td>
+<td>5 minutes ago</td>
+<td><button onclick="terminate()">Terminate</button></td>
+</tr>
+
+<tr>
+<td>Safari Mobile</td>
+<td>Mumbai</td>
+<td>2 hours ago</td>
+<td><button onclick="terminate()">Terminate</button></td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h3>Admin Activity Logs</h3>
+
+<table>
+
+<tr>
+<th>Time</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>10:32</td>
+<td>Updated Resource</td>
+</tr>
+
+<tr>
+<td>11:05</td>
+<td>Generated Report</td>
+</tr>
+
+<tr>
+<td>12:15</td>
+<td>Changed Settings</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= SMART RFID FOOTER (MATCHES SCREENSHOT) ================= -->
+<footer class="srfid-footer" aria-label="Site footer">
+  <div class="srfid-footer-container" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start;padding-left:24px;margin-left:0;width:100%;max-width:none;">
+    <div class="srfid-footer-col srfid-footer-left" style="justify-self:start;margin-left:0;padding-left:0;">
+      <h3><span class="footer-icon">🏢</span> <span class="footer-brand">SmartRFID Technologies Pvt. Ltd.</span></h3>
+      <div class="footer-muted">🔒 Secure & Intelligent Attendance Solutions</div>
+      <div class="footer-section-title">📞 Contact & Support</div>
+      <div class="footer-contact-row"><span class="footer-icon">✉️</span> support@smartrfid.com</div>
+      <div class="footer-contact-row"><span class="footer-icon">📱</span> +91-99999 99999</div>
+      <div class="footer-contact-row"><span class="footer-icon">⏰</span> Mon–Sat | 9:00 AM – 6:00 PM</div>
+      <div class="footer-contact-row">
+        
+      </div>
+    </div>
+    <div class="srfid-footer-col srfid-footer-center" style="justify-self:center;">
+      <div class="footer-section-title">🔗 Quick Navigation</div>
+      <ul class="footer-nav-list">
+        <li><span class="footer-dot"></span> <span class="footer-icon">📊</span> <a href="dashboard.html">Dashboard</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🧾</span> <a href="audit.html">Attendance Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">📈</span> <a href="report.html">Reports</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🖥️</span> <a href="resource_admin.html">Device Management</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🔍</span> <a href="audit.html">Audit Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">👤</span> <a href="Adminprofile.html">Admin Panel</a></li>
+      </ul>
+    </div>
+    <div class="srfid-footer-col srfid-footer-right" style="justify-self:end;margin-right:0;padding-right:0;width:100%;">
+      <div class="footer-section-title">🛰️ System Info</div>
+      <div class="footer-info-row">Version: <b>2.3.1</b> <span class="footer-small">(Last updated 2026-02-15)</span></div>
+      <div class="footer-info-row">Server: <span class="footer-status">Operational</span></div>
+      <div class="footer-info-row">Current Time: <span id="footerTime" class="footer-small"></span></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/nav.js?v=2"></script>
+<script src="js/adminprofile.js?v=2"></script>
+
+</body>
+</html>

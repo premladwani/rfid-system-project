@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup Form</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="background-shape"></div>
+        <div class="secondary-shape"></div>
+        <div class="credentials-panel signin">
+            <h2 class="slide-element">Login</h2>
+            <form action="#" onsubmit="handleLogin(event)">
+                <div class="field-wrapper slide-element">
+                    <input type="email" id="loginEmail" required>
+                    <label for="">Email</label>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="password" id="loginPassword" required>
+                    <label for="">Password</label>
+                    <i class="fa-solid fa-lock"></i>
+                    <i class="fa-solid fa-eye" id="toggleLoginPassword" onclick="togglePassword('loginPassword', 'toggleLoginPassword')" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+                </div>
+
+                <div class="forgot-password slide-element">
+                    <a href="forget_password.html">Forgot Password?</a>
+                </div>
+
+                <div class="checkbox-wrapper slide-element">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember Me</label>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                  <button class="submit-button" type="submit" id="loginBtn">Login</button>
+                </div>
+
+                <div class="switch-link slide-element">
+                    <p>Don't have an account? <br> <a href="#" class="register-trigger">Sign Up</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="welcome-section signin">
+            <h2 class="slide-element">WELCOME BACK!</h2>
+        </div>
+
+        <div class="credentials-panel signup">
+            <h2 class="slide-element">Register</h2>
+            <form action="#" onsubmit="handleRegister(event)">
+                <div class="field-wrapper slide-element">
+                    <input type="text" id="regName" required>
+                    <label for="">Full Name</label>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="email" id="regEmail" required>
+                    <label for="">Email</label>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="tel" id="regPhone" required>
+                    <label for="">Phone Number</label>
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="text" id="regRFID" required>
+                    <label for="">RFID Card Number</label>
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="password" id="regPassword" required>
+                    <label for="">Password</label>
+                    <i class="fa-solid fa-lock"></i>
+                    <i class="fa-solid fa-eye" id="toggleRegPassword" onclick="togglePassword('regPassword', 'toggleRegPassword')" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                  <button class="submit-button" type="submit">Sign Up</button>
+                </div>
+
+                <div class="switch-link slide-element">
+                   <p>Already have an account? <br> <a href="#" class="login-trigger">Sign In</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="welcome-section signup">
+            <h2 class="slide-element">WELCOME!</h2>
+        </div>
+
+    </div>
+
+    <script>
+    // Check URL parameter to show register form by default
+    window.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('showRegister') === 'true') {
+            // Add the toggled class to show register form
+            document.querySelector('.auth-wrapper').classList.add('toggled');
+        }
+    });
+    
+    function togglePassword(inputId, toggleIconId) {
+      const passwordInput = document.getElementById(inputId);
+      const toggleIcon = document.getElementById(toggleIconId);
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+    
+    async function handleLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+});
+        const data = await response.json();
+        
+        if(data.success) {
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          localStorage.setItem('isLoggedIn', 'true');
+          window.location.href="userdashboard.html";
+        } else {
+          alert('Error: ' + data.message);
+        }
+      } catch (error) {
+          console.error('Error logging in:', error);
+          alert('Failed to connect to the server.');
+      }
+    }
+    
+    async function handleRegister(event) {
+      event.preventDefault();
+      const name = document.getElementById('regName').value;
+      const email = document.getElementById('regEmail').value;
+      const phone = document.getElementById('regPhone').value;
+      const rfidNumber = document.getElementById('regRFID').value;
+      const password = document.getElementById('regPassword').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+        fullName: name, 
+        email: email, 
+        phone: phone, 
+        rfid: rfidNumber, 
+        role: 'Student', // Default for user portal
+        password: password 
+    })
+});
+        const data = await response.json();
+        if(data.success) {
+          localStorage.setItem('currentUser', JSON.stringify({ id: data.userId, fullName: name, email, role: 'Student' }));
+          localStorage.setItem('isLoggedIn', 'true');
+          alert('Registration successful! Welcome ' + name);
+          window.location.href="userdashboard.html";
+        } else {
+          alert('Registration failed: ' + data.message);
+        }
+      } catch (error) {
+          console.error("Error registering:", error);
+          alert('Failed to connect to the server.');
+      }
+    }
+    </script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

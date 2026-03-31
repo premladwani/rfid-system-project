@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RFID Attendance System - User Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/footer.css">
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="rfid-btn" onclick="toggleSidebar()">
+<div class="hamburger-menu">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-header">
+<h2>User Portal</h2>
+<span class="close-btn" onclick="toggleSidebar()">✕</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+</div>
+
+<!-- NAV LINKS -->
+<div class="nav-links">
+
+<a href="userdashboard.html" class="active">🏠 Dashboard</a>
+
+<a href="userprofile.html">👤 User Profile</a>
+
+<a href="help.html">❓ Help & Support</a>
+
+</div>
+
+<!-- PROFILE SECTION -->
+<div class="profile-section">
+<div class="profile">
+<img src="https://i.pravatar.cc/100" alt="User Avatar">
+<div class="profile-info">
+<div id="profileName">User</div>
+<div id="profileEmail" style="font-size:13px;opacity:0.7;">email@example.com</div>
+</div>
+</div>
+<div class="profile-details" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px;">
+<div><strong>Phone:</strong> <span id="profilePhone">---</span></div>
+<div><strong>RFID:</strong> <span id="profileRFID">---</span></div>
+</div>
+</div>
+
+<!-- LOGOUT BUTTON -->
+<div class="logout-section">
+<button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+</div>
+
+<button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="content">
+</div>
+
+<script src="js/nav.js"></script>
+
+</body>
+</html>

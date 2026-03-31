@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup Form</title>
+    <link rel="stylesheet" type="text/css" href="css/adminregister.css">
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <div class="background-shape"></div>
+        <div class="secondary-shape"></div>
+
+        <!-- LOGIN PANEL (UNCHANGED) -->
+        <div class="credentials-panel signin">
+            <h2 class="slide-element">Login</h2>
+            <form action="#" onsubmit="handleLogin(event)">
+                <div class="field-wrapper slide-element">
+                    <input type="email" id="loginEmail" required>
+                    <label for="">Email</label>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="password" id="loginPassword" required>
+                    <label for="">Password</label>
+                    <i class="fa-solid fa-lock"></i>
+                    <i class="fa-solid fa-eye" id="toggleAdminLoginPassword" onclick="togglePassword('loginPassword', 'toggleAdminLoginPassword')" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+                </div>
+
+                <div class="forgot-password slide-element">
+                    <a href="forget_password.html">Forgot Password?</a>
+                </div>
+
+                <div class="checkbox-wrapper slide-element">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember Me</label>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                   <button class="submit-button" type="submit" id="adminLoginBtn">Login</button>
+                </div>
+
+                <div class="switch-link slide-element">
+                    <p>Don't have an account? <br> <a href="#" class="register-trigger">Register Admin</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="welcome-section signin">
+            <h2 class="slide-element">WELCOME BACK!</h2>
+        </div>
+
+        <!-- ADMIN REGISTER PANEL -->
+        <div class="credentials-panel signup">
+            <h2 class="slide-element">Admin Register</h2>
+            <form action="#" onsubmit="handleRegister(event)">
+
+                <div class="field-wrapper slide-element">
+                    <input type="text" id="adminName" required>
+                    <label for="">Admin Name</label>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="email" id="adminEmail" required>
+                    <label for="">Admin Email</label>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="tel" id="adminPhone" required>
+                    <label for="">Phone Number</label>
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                    <input type="password" id="adminPassword" required>
+                    <label for="">Password</label>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <div class="field-wrapper slide-element">
+                 <button class="submit-button" type="submit">Register</button>
+                </div>
+
+                <div class="switch-link slide-element">
+                    <p>Already have an account? <br> <a href="#" class="login-trigger">Sign In</a></p>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="welcome-section signup">
+            <h2 class="slide-element">WELCOME ADMIN!</h2>
+        </div>
+
+    </div>
+
+<script>
+/* ===================== LOGIN / REGISTER TOGGLE ===================== */
+const authWrapper = document.querySelector('.auth-wrapper');
+const loginTrigger = document.querySelector('.login-trigger');
+const registerTrigger = document.querySelector('.register-trigger');
+
+registerTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    authWrapper.classList.add('toggled');
+});
+
+loginTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    authWrapper.classList.remove('toggled');
+});
+
+/* ===================== THEME TOGGLE ===================== */
+let currentTheme = localStorage.getItem('loginTheme') || 'dark';
+document.body.classList.add(currentTheme + '-theme');
+updateThemeButton();
+
+function toggleTheme() {
+    const body = document.body;
+    if (body.classList.contains('dark-theme')) {
+        body.classList.replace('dark-theme', 'light-theme');
+        currentTheme = 'light';
+    } else {
+        body.classList.replace('light-theme', 'dark-theme');
+        currentTheme = 'dark';
+    }
+    localStorage.setItem('loginTheme', currentTheme);
+    updateThemeButton();
+}
+
+function updateThemeButton() {
+    const btn = document.querySelector('.theme-toggle');
+    if (!btn) return; // fix error if button doesn't exist
+    btn.textContent = document.body.classList.contains('light-theme') ? '🌙 Dark' : '☀️ Light';
+}
+
+/* ===================== PASSWORD TOGGLE ===================== */
+function togglePassword(inputId, toggleIconId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleIcon = document.getElementById(toggleIconId);
+    
+    if(passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon?.classList.replace('fa-eye','fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon?.classList.replace('fa-eye-slash','fa-eye');
+    }
+}
+
+/* ===================== REMEMBER ME ===================== */
+document.addEventListener('DOMContentLoaded', function() {
+    const rememberCheckbox = document.getElementById('rememberMe');
+    const emailInput = document.getElementById('loginEmail');
+    
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if(savedEmail) {
+        emailInput.value = savedEmail;
+        rememberCheckbox.checked = true;
+    }
+
+    rememberCheckbox.addEventListener('change', function() {
+        if(this.checked) localStorage.setItem('rememberedEmail', emailInput.value);
+        else localStorage.removeItem('rememberedEmail');
+    });
+
+    emailInput.addEventListener('change', function() {
+        if(rememberCheckbox.checked) localStorage.setItem('rememberedEmail', this.value);
+    });
+});
+
+/* ===================== LOGIN FUNCTION ===================== */
+async function handleLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+        const response = await fetch('http://localhost:3000/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if(data.success) {
+            localStorage.setItem('currentAdmin', JSON.stringify(data.user));
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.href = "dashboard.html";
+        } else {
+            alert('Error: ' + data.message);
+        }
+
+    } catch(error) {
+        console.error('Error logging in:', error);
+        alert('Failed to connect to the server.');
+    }
+}
+
+/* ===================== REGISTER FUNCTION ===================== */
+async function handleRegister(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('adminName').value;
+    const email = document.getElementById('adminEmail').value;
+    const phone = document.getElementById('adminPhone').value;
+    const password = document.getElementById('adminPassword').value;
+
+    try {
+        const response = await fetch('http://localhost:3000/api/admin/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                fullName: name,
+                email: email,
+                phone: phone,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+        if(data.success) {
+            localStorage.setItem('currentAdmin', JSON.stringify({ id: data.userId, fullName: name, email, role: 'Admin' }));
+            localStorage.setItem('isLoggedIn', 'true');
+            alert('Admin registration successful! Welcome ' + name);
+            window.location.href = "dashboard.html";
+        } else {
+            alert('Registration failed: ' + data.message);
+        }
+
+    } catch(error) {
+        console.error('Error registering:', error);
+        alert('Failed to connect to the server.');
+    }
+}
+</script>
+<script src="js/adminregister.js"></script>
+
+</body>
+</html>

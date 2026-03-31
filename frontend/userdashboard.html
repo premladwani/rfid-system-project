@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/userdashboard.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/userfooter.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D background particles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+</head>
+<bod>
+
+<canvas id="meshCanvas" style="position:fixed;top:0;left:0;z-index:-1;"></canvas>
+
+<!-- NAVBAR -->
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="rfid-btn" onclick="toggleSidebar()">
+<div class="hamburger-menu">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-header">
+<h2>User Portal</h2>
+<span class="close-btn" onclick="toggleSidebar()">✕</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+</div>
+
+<!-- NAV LINKS -->
+<div class="nav-links">
+
+<a href="userdashboard.html" class="active">🏠 Dashboard</a>
+
+<a href="userprofile.html">👤 User Profile</a>
+
+<a href="help.html">❓ Help & Support</a>
+
+
+
+</div>
+
+<!-- PROFILE SECTION -->
+<div class="profile-section">
+<div class="profile">
+<img src="https://i.pravatar.cc/100" alt="User Avatar">
+<div class="profile-info">
+<div id="profileName">User</div>
+<div id="profileEmail" style="font-size:13px;opacity:0.7;">email@example.com</div>
+</div>
+</div>
+<div class="profile-details" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px;">
+<div><strong>Phone:</strong> <span id="profilePhone">---</span></div>
+<div><strong>RFID:</strong> <span id="profileRFID">---</span></div>
+</div>
+</div>
+
+<!-- LOGOUT BUTTON -->
+<div class="logout-section">
+<button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+</div>
+
+<button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+
+</div>
+
+<main class="dashboard-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="header-left">
+            <div class="logo-icon">📊</div>
+            <div>
+                <h2>User Dashboard</h2>
+                <p id="headerSubtitle">Welcome back!</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button id="themeToggle" class="action-btn theme-btn">🌙</button>
+            <button id="resetBtn" class="action-btn danger">🔄 Reset</button>
+        </div>
+    </header>
+
+    <!-- Alert Box -->
+    <div id="alertBox"></div>
+
+    <!-- User Info Display Section -->
+    <section class="user-info-section">
+        <div class="user-info-card">
+            <div id="userInfoBox">Please log in to see your information.</div>
+        </div>
+    </section>
+
+    <div class="main-grid">
+        <!-- Summary Section -->
+        <section class="grid-section summary-section">
+            <div class="section-title">📈 Attendance Summary</div>
+            <div class="summary-card">
+                <div id="resultBox">Please submit your details to view attendance summary.</div>
+            </div>
+        </section>
+
+        <!-- Overview Chart -->
+        <section class="grid-section chart-section">
+            <div class="section-title">📊 Overview</div>
+            <div class="chart-wrapper">
+                <canvas id="overviewChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section class="grid-section calendar-section">
+            <div class="section-title">🗓️ Calendar & Events</div>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button id="prevMonth" class="month-btn">◀</button>
+                    <span id="monthYear" class="month-year"></span>
+                    <button id="nextMonth" class="month-btn">▶</button>
+                </div>
+                <div id="calendar" class="calendar-grid"></div>
+            </div>
+        </section>
+
+        <!-- Weekly Chart -->
+        <section class="grid-section chart-section">
+            <div class="section-title">📅 Weekly Report</div>
+            <div class="chart-wrapper">
+                <canvas id="weeklyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Monthly Chart -->
+        <section class="grid-section chart-section">
+            <div class="section-title">📆 Monthly Report</div>
+            <div class="chart-wrapper">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="grid-section notes-section">
+            <div class="section-title">📝 Notes & Observations</div>
+            <textarea id="notes" placeholder="Write your notes here..." class="notes-textarea"></textarea>
+            <button class="save-notes-btn">💾 Save Notes</button>
+        </section>
+
+        <!-- User Request Section -->
+        <section class="grid-section request-section">
+            <div class="section-title">📤 User Request</div>
+            <div class="request-container">
+                <div class="request-form" id="requestForm">
+                    <textarea id="requestText" placeholder="Type your request to the admin here..." class="request-textarea"></textarea>
+                    <div class="request-actions">
+                        <button class="submit-request-btn" onclick="submitRequest()">📤 Send Request</button>
+                        <button class="view-requests-btn" onclick="viewRequests()">📋 View My Requests</button>
+                    </div>
+                </div>
+                <div class="request-list" id="requestList" style="display: none;">
+                    <div class="request-list-header">
+                        <h3>My Requests</h3>
+                        <button class="back-to-form-btn" onclick="backToRequestForm()">← Back</button>
+                    </div>
+                    <div id="requestsContent"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<!-- ================= SMART RFID FOOTER ================= -->
+<footer class="srfid-footer" aria-label="Site footer">
+  <div class="srfid-footer-container" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start;padding-left:24px;margin-left:0;width:100%;max-width:none;">
+    <div class="srfid-footer-col srfid-footer-left" style="justify-self:start;margin-left:0;padding-left:0;">
+      <h3><span class="footer-icon">🏢</span> <span class="footer-brand">SmartRFID Technologies Pvt. Ltd.</span></h3>
+      <div class="footer-muted">🔒 Secure & Intelligent Attendance Solutions</div>
+      <div class="footer-section-title">📞 Contact & Support</div>
+      <div class="footer-contact-row"><span class="footer-icon">✉️</span> support@smartrfid.com</div>
+      <div class="footer-contact-row"><span class="footer-icon">📱</span> +91-99999 99999</div>
+      <div class="footer-contact-row"><span class="footer-icon">⏰</span> Mon–Sat | 9:00 AM – 6:00 PM</div>
+      <div class="footer-contact-row">
+        
+      </div>
+    </div>
+    <div class="srfid-footer-col srfid-footer-center" style="justify-self:center;">
+      <div class="footer-section-title">🔗 Quick Navigation</div>
+      <ul class="footer-nav-list">
+        <li><span class="footer-dot"></span> <span class="footer-icon">📊</span> <a href="userdashboard.html">Dashboard</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">👤</span> <a href="userprofile.html">Profile</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🆘</span> <a href="help.html">Help Support</a></li>
+      </ul>
+    </div>
+    <div class="srfid-footer-col srfid-footer-right" style="justify-self:end;margin-right:0;padding-right:0;width:100%;">
+      <div class="footer-section-title">🛰️ System Info</div>
+      <div class="footer-info-row">Version: <b>2.3.1</b> <span class="footer-small">(Last updated 2026-02-15)</span></div>
+      <div class="footer-info-row">Server: <span class="footer-status">Operational</span></div>
+      <div class="footer-info-row">Current Time: <span id="footerTime" class="footer-small"></span></div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/nav.js?v=2"></script>
+<script src="js/userdashboard.js?v=2"></script>
+</body>
+</html>

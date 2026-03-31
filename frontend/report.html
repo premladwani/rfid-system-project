@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports & Export</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/report.css">
+<link rel="stylesheet" href="css/footer.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body class="report-page">
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="rfid-btn" onclick="toggleSidebar()">
+        <div class="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="topbar-title">
+        <h1>📊 Reports & Export</h1>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h2>RFID Panel</h2>
+<span class="close-btn" onclick="toggleSidebar()">✕</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="navSearchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+</div>
+
+<!-- NAV LINKS -->
+<div class="nav-links">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="usermanagement.html">👥 User Management</a>
+<a href="resource_admin.html">📦 Resource Admin</a>
+<a href="rfid_system_configuration.html">⚙ System Config</a>
+<a href="report.html" class="active">📊 Reports & Export</a>
+<a href="register_new_user.html">➕ Register User</a>
+<a href="audit.html">🧾 Audit Logs</a>
+</div>
+
+<!-- LOGOUT BUTTON -->
+<div class="logout-section">
+<button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+</div>
+
+<!-- PROFILE -->
+<a href="Adminprofile.html" class="profile">
+<img src="https://i.pravatar.cc/100">
+<div class="profile-info">
+<div id="sidebarAdminName">Admin</div>
+<div id="sidebarAdminRole" style="font-size:13px;opacity:0.7;">System Manager</div>
+</div>
+</a>
+</div>
+
+<div class="container">
+
+<div class="summary">
+<div class="dashboard">
+<div class="card">
+<div class="card-content">
+<i class="fas fa-chart-line"></i>
+<h3>Total Records</h3>
+<p id="totalCount">0</p>
+</div>
+</div>
+<div class="card">
+<div class="card-content">
+<i class="fas fa-user-check"></i>
+<h3>Active</h3>
+<p id="activeCount">0</p>
+</div>
+</div>
+<div class="card">
+<div class="card-content">
+<i class="fas fa-clock"></i>
+<h3>Pending</h3>
+<p id="pendingCount">0</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="filters">
+
+<input type="date" id="startDate">
+
+<input type="date" id="endDate">
+
+<input type="text" id="searchInput" placeholder="Search">
+
+<button onclick="applyFilter()">Apply</button>
+
+</div>
+
+<div class="export-section">
+
+<button onclick="exportCSV()">Export CSV</button>
+
+<button onclick="exportPDF()">Export PDF</button>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th onclick="sortData('id')">ID</th>
+<th onclick="sortData('name')">Name</th>
+<th onclick="sortData('branch')">Branch</th>
+<th onclick="sortData('section')">Section</th>
+<th onclick="sortData('inTime')">In Time</th>
+<th onclick="sortData('outTime')">Out Time</th>
+<th onclick="sortData('date')">Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+<div id="emptyMessage" class="empty"></div>
+
+</div>
+
+</div>
+
+<!-- ================= SMART RFID FOOTER (MATCHES SCREENSHOT) ================= -->
+<footer class="srfid-footer" aria-label="Site footer">
+  <div class="srfid-footer-container" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start;padding-left:24px;margin-left:0;width:100%;max-width:none;">
+    <div class="srfid-footer-col srfid-footer-left" style="justify-self:start;margin-left:0;padding-left:0;">
+      <h3><span class="footer-icon">🏢</span> <span class="footer-brand">SmartRFID Technologies Pvt. Ltd.</span></h3>
+      <div class="footer-muted">🔒 Secure & Intelligent Attendance Solutions</div>
+      <div class="footer-section-title">📞 Contact & Support</div>
+      <div class="footer-contact-row"><span class="footer-icon">✉️</span> support@smartrfid.com</div>
+      <div class="footer-contact-row"><span class="footer-icon">📱</span> +91-99999 99999</div>
+      <div class="footer-contact-row"><span class="footer-icon">⏰</span> Mon–Sat | 9:00 AM – 6:00 PM</div>
+      <div class="footer-contact-row">
+        
+      </div>
+    </div>
+    <div class="srfid-footer-col srfid-footer-center" style="justify-self:center;">
+      <div class="footer-section-title">🔗 Quick Navigation</div>
+      <ul class="footer-nav-list">
+        <li><span class="footer-dot"></span> <span class="footer-icon">📊</span> <a href="dashboard.html">Dashboard</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🧾</span> <a href="audit.html">Attendance Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">📈</span> <a href="report.html">Reports</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🖥️</span> <a href="resource_admin.html">Device Management</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🔍</span> <a href="audit.html">Audit Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">👤</span> <a href="Adminprofile.html">Admin Panel</a></li>
+      </ul>
+    </div>
+    <div class="srfid-footer-col srfid-footer-right" style="justify-self:end;margin-right:0;padding-right:0;width:100%;">
+      <div class="footer-section-title">🛰️ System Info</div>
+      <div class="footer-info-row">Version: <b>2.3.1</b> <span class="footer-small">(Last updated 2026-02-15)</span></div>
+      <div class="footer-info-row">Server: <span class="footer-status">Operational</span></div>
+      <div class="footer-info-row">Current Time: <span id="footerTime" class="footer-small"></span></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script src="js/report.js"></script>
+<script src="js/report1.js"></script>
+
+<script>
+// Update admin profile when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const adminData = localStorage.getItem('currentAdmin');
+    if (adminData) {
+        const admin = JSON.parse(adminData);
+        const sidebarAdminName = document.getElementById('sidebarAdminName');
+        const sidebarAdminRole = document.getElementById('sidebarAdminRole');
+        
+        if (sidebarAdminName) sidebarAdminName.textContent = admin.fullName || 'Admin';
+        if (sidebarAdminRole) sidebarAdminRole.textContent = admin.role || 'System Manager';
+    }
+});
+</script>
+
+</body>
+</html>
+

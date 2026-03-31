@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Test User Request API</h1>
+    <button onclick="testRequest()">Test Submit Request</button>
+    <div id="result"></div>
+
+    <script>
+        async function testRequest() {
+            const testData = {
+                userId: "test123",
+                userName: "Test User",
+                userEmail: "test@example.com",
+                message: "This is a test request"
+            };
+
+            try {
+                const response = await fetch('/api/user-requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                const data = await response.json();
+                document.getElementById('result').innerHTML = `
+                    <h3>Response:</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `
+                    <h3>Error:</h3>
+                    <pre>${error.message}</pre>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

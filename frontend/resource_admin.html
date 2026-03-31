@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RFID Attendance – Resource Administration</title>
+
+<!-- Link CSS (relative path to same directory) -->
+ <link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/resource_admin.css">
+<link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Include Navigation -->
+<div id="nav-container"></div>
+
+<!-- Load Navigation -->
+<script>
+  fetch('nav.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('nav-container').innerHTML = html;
+      // Load nav.js after content is inserted
+      const script = document.createElement('script');
+      script.src = 'js/nav.js';
+      script.onload = function() {
+        // Update admin profile after nav loads
+        const adminData = localStorage.getItem('currentAdmin');
+        if (adminData) {
+          const admin = JSON.parse(adminData);
+          if (typeof updateAdminProfile === 'function') {
+            updateAdminProfile(admin);
+          }
+        }
+      };
+      document.body.appendChild(script);
+    })
+    .catch(error => console.error('Error loading navigation:', error));
+</script>
+
+<!-- PAGE CONTENT -->
+<div class="container">
+
+<h1>RFID Attendance – Resource Administration</h1>
+
+<div class="rfid-status">
+RFID Reader: <span class="green-dot"></span> Connected |
+Last UID: <span id="lastUID">None</span>
+</div>
+
+<div class="dashboard">
+<div class="card">
+<div class="card-content">
+<i class="fas fa-boxes"></i>
+<h3>Total Resources</h3>
+<p id="totalCount">0</p>
+</div>
+</div>
+<div class="card">
+<div class="card-content">
+<i class="fas fa-check-circle"></i>
+<h3>Active</h3>
+<p id="activeCount">0</p>
+</div>
+</div>
+<div class="card">
+<div class="card-content">
+<i class="fas fa-times-circle"></i>
+<h3>Inactive</h3>
+<p id="inactiveCount">0</p>
+</div>
+</div>
+</div>
+
+<div class="controls">
+<input type="text" id="searchInput" placeholder="Search Name / RFID / Mobile No.">
+<select id="filterType">
+<option value="">All Types</option>
+<option>Student</option>
+<option>Staff</option>
+</select>
+<button class="btn-primary" onclick="openModal()">+ Add Resource</button>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>RFID</th>
+<th>Type</th>
+<th>Email</th>
+<th>Mobile No.</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3>Add Resource</h3>
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="rfid" placeholder="RFID UID">
+<select id="type">
+<option>Student</option>
+<option>Staff</option>
+</select>
+<input type="email" id="email" placeholder="Email">
+<input type="text" id="mobile" placeholder="Mobile No.">
+<select id="status">
+<option value="Active">Active</option>
+<option value="Inactive">Inactive</option>
+</select>
+<button class="btn-success" onclick="saveResource()">Save</button>
+<button class="btn-danger" onclick="closeModal()">Cancel</button>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ================= SMART RFID FOOTER ================= -->
+<footer class="srfid-footer" aria-label="Site footer">
+  <div class="srfid-footer-container" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:start;padding-left:24px;margin-left:0;width:100%;max-width:none;">
+    <div class="srfid-footer-col srfid-footer-left" style="justify-self:start;margin-left:0;padding-left:0;">
+      <h3><span class="footer-icon">🏢</span> <span class="footer-brand">SmartRFID Technologies Pvt. Ltd.</span></h3>
+      <div class="footer-muted">🔒 Secure & Intelligent Attendance Solutions</div>
+      <div class="footer-section-title">📞 Contact & Support</div>
+      <div class="footer-contact-row"><span class="footer-icon">✉️</span> support@smartrfid.com</div>
+      <div class="footer-contact-row"><span class="footer-icon">📱</span> +91-99999 99999</div>
+      <div class="footer-contact-row"><span class="footer-icon">⏰</span> Mon–Sat | 9:00 AM – 6:00 PM</div>
+      <div class="footer-contact-row">
+        
+      </div>
+    </div>
+    <div class="srfid-footer-col srfid-footer-center" style="justify-self:center;">
+      <div class="footer-section-title">🔗 Quick Navigation</div>
+      <ul class="footer-nav-list">
+        <li><span class="footer-dot"></span> <span class="footer-icon">📊</span> <a href="#">Dashboard</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🧾</span> <a href="#">Attendance Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">📈</span> <a href="#">Reports</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🖥️</span> <a href="#">Device Management</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">🔍</span> <a href="#">Audit Logs</a></li>
+        <li><span class="footer-dot"></span> <span class="footer-icon">👤</span> <a href="#">Admin Panel</a></li>
+      </ul>
+    </div>
+    <div class="srfid-footer-col srfid-footer-right" style="justify-self:end;margin-right:0;padding-right:0;width:100%;">
+      <div class="footer-section-title">🛰️ System Info</div>
+      <div class="footer-info-row">Version: <b>2.3.1</b> <span class="footer-small">(Last updated 2026-02-15)</span></div>
+      <div class="footer-info-row">Server: <span class="footer-status">Operational</span></div>
+      <div class="footer-info-row">Current Time: <span id="footerTime" class="footer-small"></span></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Link JavaScript (deferred to ensure DOM ready) -->
+<script src="js/footer.js"></script>
+<script src="js/resource_admin.js?v=2" defer></script>
+
+</body>
+</html>

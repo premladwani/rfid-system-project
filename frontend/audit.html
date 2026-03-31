@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RFID Attendance Audit Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="css/audit.css">
+<link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="css/nav.css">
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="rfid-btn" onclick="toggleSidebar()">
+<div class="hamburger-menu">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h2>RFID Panel</h2>
+<span class="close-btn" onclick="toggleSidebar()">✕</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+</div>
+
+<!-- NAV LINKS -->
+<div class="nav-links">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="usermanagement.html">👥 User Management</a>
+<a href="resource_admin.html">📦 Resource Admin</a>
+<a href="rfid_system_configuration.html">⚙ System Config</a>
+<a href="report.html">📊 Reports & Export</a>
+<a href="register_new_user.html">➕ Register User</a>
+<a href="audit.html" class="active">🧾 Audit Logs</a>
+</div>
+
+<!-- LOGOUT BUTTON -->
+<div class="logout-section">
+<button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+</div>
+
+<!-- PROFILE -->
+<a href="Adminprofile.html" class="profile">
+<img src="https://i.pravatar.cc/100">
+<div class="profile-info">
+<div id="sidebarAdminName">Admin</div>
+<div id="sidebarAdminRole" style="font-size:13px;opacity:0.7;">System Manager</div>
+</div>
+</a>
+
+<button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="content">
+
+<div class="header">
+  <h2>RFID Attendance Audit Dashboard</h2>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="cards">
+  <div class="card login">
+    <h3 id="totalLogs">0</h3>
+    <p>Total Logs Today</p>
+  </div>
+
+  <div class="card config">
+    <h3 id="totalScans">0</h3>
+    <p>Total Attendance Scans</p>
+  </div>
+
+  <div class="card error">
+    <h3 id="failedLogins">0</h3>
+    <p>Failed Login Attempts</p>
+  </div>
+
+  <div class="card resource">
+    <h3 id="manualEdits">0</h3>
+    <p>Manual Attendance Edits</p>
+  </div>
+
+  <div class="card device">
+    <h3 id="devicesOffline">0</h3>
+    <p>Devices Offline</p>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filter-section">
+  <h4>Filter Audit Logs</h4>
+  <div class="filter-grid">
+    <div class="filter-group">
+      <label>From Date</label>
+      <input type="date" id="fromDate" onchange="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label>To Date</label>
+      <input type="date" id="toDate" onchange="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label>Search User Name</label>
+      <input type="text" id="searchUserName" placeholder="Enter name" onkeyup="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label>Search User ID</label>
+      <input type="text" id="searchUserID" placeholder="Enter ID" onkeyup="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label>Search RFID Tag</label>
+      <input type="text" id="searchRFID" placeholder="Enter tag ID" onkeyup="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label>Event Type</label>
+      <select id="eventType" onchange="applyFilters()">
+        <option value="">All Events</option>
+        <option value="Clock In">Clock In</option>
+        <option value="Clock Out">Clock Out</option>
+        <option value="Late Entry">Late Entry</option>
+        <option value="Early Exit">Early Exit</option>
+        <option value="Manual Edit">Manual Edit</option>
+        <option value="Login">Successful Login</option>
+        <option value="Failed Login">Failed Login</option>
+        <option value="Device Online">Device Online</option>
+        <option value="Device Offline">Device Offline</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status</label>
+      <select id="status" onchange="applyFilters()">
+        <option value="">All Status</option>
+        <option value="Success">Success</option>
+        <option value="Failed">Failed</option>
+        <option value="Pending">Pending</option>
+      </select>
+    </div>
+  </div>
+  <div class="filter-buttons">
+    <button class="btn btn-primary" onclick="applyFilters()"> Apply Filters</button>
+    <button class="btn btn-secondary" onclick="resetFilters()"> Reset</button>
+    <button class="btn btn-secondary" onclick="exportCSV()"> Export CSV</button>
+    <button class="btn btn-danger" onclick="clearOldLogs()"> Clear Old Logs</button>
+  </div>
+</div>
+
+<!-- LIVE FEED -->
+<div class="live-feed-section">
+  <h4> Live Activity Feed (Latest 5)</h4>
+  <div id="liveFeed">
+    <div class="feed-item">Waiting for activities...</div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<div class="chart-grid">
+  <div class="chart-card">
+    <h4>Attendance Trend</h4>
+    <canvas id="attendanceChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h4>Failed Login Count</h4>
+    <canvas id="failureChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h4>Device Status</h4>
+    <canvas id="deviceChart"></canvas>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-section">
+  <div class="table-header">
+    <h4> Audit Log Details</h4>
+    <div class="export-buttons">
+      <button class="btn btn-primary" onclick="exportExcel()"> Export Excel</button>
+      <button class="btn btn-secondary" onclick="window.print()"> Print</button>
+    </div>
+  </div>
+  <div style="overflow-x:auto;">
+    <table id="auditTable">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>User Name</th>
+          <th>User ID</th>
+          <th>RFID Tag ID</th>
+          <th>Event Type</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Remarks</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+    <div id="noData" class="no-data" style="display:none;">No logs found matching your filters</div>
+  </div>
+</div>
+
+<!-- MODAL FOR DETAILS -->
+<div id="detailModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>Log Details</h3>
+    <div class="modal-details" id="modalBody">
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div id="footer-container"></div>
+<script src="js/nav.js"></script>
+<script src="js/audit.js"></script>
+<script src="js/footer.js"></script>
+<script>
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('footer-container').innerHTML = html;
+    })
+    .catch(error => console.error('Error loading footer:', error));
+</script>
+
+</body>
+</html>

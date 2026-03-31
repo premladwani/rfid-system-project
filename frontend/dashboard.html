@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard – Smart RFID</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/nav.css">
+
+</head>
+
+<body>
+
+<!-- Include Navigation -->
+<div id="nav-container"></div>
+
+<!-- Load Navigation -->
+<script>
+  fetch('nav.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('nav-container').innerHTML = html;
+      // Load nav.js after content is inserted
+      const script = document.createElement('script');
+      script.src = 'js/nav.js';
+      script.onload = function() {
+        // Update admin profile after nav loads
+        const adminData = localStorage.getItem('currentAdmin');
+        if (adminData) {
+          const admin = JSON.parse(adminData);
+          if (typeof updateAdminProfile === 'function') {
+            updateAdminProfile(admin);
+          }
+        }
+      };
+      document.body.appendChild(script);
+    })
+    .catch(error => console.error('Error loading navigation:', error));
+</script>
+
+<!-- Admin check moved to dashboard.js -->
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>📊 Admin Dashboard</h1>
+    <div class="header-right">
+      <div class="role">👤 Role: <span>Administrator</span></div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="cards">
+    <div class="card"><h2>120</h2><p>Total Registered User</p></div>
+    <div class="card"><h2>95</h2><p>Attendance Marked Today</p></div>
+    <div class="card"><h2>25</h2><p>Absent User</p></div>
+    <div class="card"><h2>3</h2><p>System Alerts</p></div>
+  </div>
+
+
+
+  <!-- ALERTS, LATE ARRIVALS & USER REQUESTS -->
+  <div class="full-width-sections">
+    <div class="card alert-section">
+      <h3>🚨 Admin Alerts</h3>
+      <div class="alert warning">RFID Reader offline – Lab 2</div>
+      <div class="alert success">Attendance synced successfully</div>
+    </div>
+    
+    <div class="card late-arrivals">
+      <h3>⏰ Late Arrivals</h3>
+      <div class="statusItem late"><strong>Vikram Singh</strong> – 45 min</div>
+      <div class="statusItem late"><strong>Neha Kapoor</strong> – 30 min</div>
+    </div>
+    
+    <div class="card late-arrivals">
+      <h3>📤 User Requests</h3>
+      <div id="userRequestsList">
+        <div class="statusItem"><strong>Loading...</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="section">
+    <h3>🕒 Recent Attendance Logs</h3>
+
+    <div class="searchBox">
+      <input type="text" id="searchInput" placeholder="🔍 Search by name">
+      <button onclick="clearSearch()">Clear</button>
+    </div>
+
+    <table id="attendanceTable">
+      <tr>
+        <th>Name</th><th>RFID</th><th>Time</th><th>Status</th>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="section">
+    <h3>⚡ Admin Control Panel</h3>
+    <div class="actions">
+      <a href="register_new_user.html"><button>Register New User</button></a>
+      <a href="usermanagement.html"><button>User Management</button></a>
+      <a href="audit.html"><button>View Logs</button></a>
+      <a href="report.html"><button>Export Report</button></a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div id="footer-container"></div>
+
+<!-- JS -->
+<script src="js/dashboard.js?v=2"></script>
+<script src="js/footer.js"></script>
+<script>
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('footer-container').innerHTML = html;
+    })
+    .catch(error => console.error('Error loading footer:', error));
+</script>
+
+</body>
+</html>

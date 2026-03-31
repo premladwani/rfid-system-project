@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RFID Attendance System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/nav.css">
+</head>
+
+<body>
+
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="rfid-btn" onclick="toggleSidebar()">
+
+<div class="hamburger-menu">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-header">
+
+<h2>RFID Panel</h2>
+
+<span class="close-btn" onclick="toggleSidebar()">✕</span>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="search">
+
+<input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterLinks()">
+
+</div>
+
+
+<!-- NAV LINKS -->
+
+<div class="nav-links">
+
+<a href="dashboard.html">🏠 Dashboard</a>
+
+<a href="usermanagement.html">👥 User Management</a>
+
+<a href="resource_admin.html">📦 Resource Admin</a>
+
+<a href="rfid_system_configuration.html">⚙ System Config</a>
+
+<a href="report.html">📊 Reports & Export</a>
+
+<a href="register_new_user.html">➕ Register User</a>
+
+<a href="audit.html">🧾 Audit Logs</a>
+
+</div>
+
+<!-- LOGOUT BUTTON -->
+
+<div class="logout-section">
+
+<button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+
+</div>
+
+<!-- PROFILE -->
+
+<a href="Adminprofile.html" class="profile">
+
+<img src="https://i.pravatar.cc/100">
+
+<div class="profile-info">
+
+<div id="navAdminName">Admin</div>
+<div id="navAdminRole" style="font-size:13px;opacity:0.7;">System Manager</div>
+
+</div>
+
+</a>
+
+
+</div>
+
+
+
+<!-- PAGE CONTENT -->
+
+
+
+<script src="js/nav.js"></script>
+
+</body>
+</html>
