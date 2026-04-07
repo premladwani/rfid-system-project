@@ -78,7 +78,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
             userName TEXT NOT NULL,
             userEmail TEXT NOT NULL,
             message TEXT NOT NULL,
-            status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'rejected')),
+            status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
             date DATETIME DEFAULT CURRENT_TIMESTAMP
         )`, (err) => {
             if (err) {

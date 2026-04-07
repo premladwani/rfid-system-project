@@ -22,12 +22,17 @@ const request = {
 
 try {
     // Send to backend
-    const response = await fetch('/api/requests', {
+    const response = await fetch('/api/user-requests', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(request)
+        body: JSON.stringify({
+            userId: 'user',
+            userName: name,
+            userEmail: email,
+            message: message
+        })
     });
     
     const result = await response.json();
@@ -70,12 +75,17 @@ const request = {
 
 try {
     // Send to backend
-    const response = await fetch('/api/requests', {
+    const response = await fetch('/api/user-requests', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(request)
+        body: JSON.stringify({
+            userId: 'user',
+            userName: name,
+            userEmail: 'user@example.com',
+            message: `Attendance Correction Request - Date: ${date}, Issue: ${issue}`
+        })
     });
     
     const result = await response.json();

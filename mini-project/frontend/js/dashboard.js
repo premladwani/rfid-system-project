@@ -265,7 +265,7 @@ function displayUserRequests() {
         // Show action buttons only for pending requests with valid IDs
         const actionButtons = request.status === 'pending' && isAccessible ? `
             <div style="margin-top: 8px; display: flex; gap: 8px;">
-                <button onclick="updateRequestStatus(${requestId}, 'completed')" 
+                <button onclick="updateRequestStatus(${requestId}, 'approved')" 
                         class="approve-btn" style="padding: 4px 12px; border: none; border-radius: 6px; 
                                background: #10b981; color: white; cursor: pointer; font-size: 12px;">
                     ✅ Approve
@@ -331,13 +331,26 @@ function getTimeAgo(date) {
 function updateRequestStatus(requestId, newStatus) {
     console.log(`🔄 Updating request ${requestId} to status: ${newStatus}`);
     
+    // Validate request ID
+    if (!requestId || requestId === 'unknown' || requestId === 'null' || requestId === null) {
+        console.error('❌ Invalid request ID:', requestId);
+        showAdminAlert('Invalid request ID. Cannot update request.', 'error');
+        return;
+    }
+    
     // Prepare admin response message
     let adminResponse = '';
-    if (newStatus === 'completed') {
+    if (newStatus === 'approved') {
         adminResponse = 'Your request has been approved and processed by admin.';
     } else if (newStatus === 'rejected') {
         adminResponse = 'Your request has been rejected by admin. Please contact support for more details.';
     }
+    
+    console.log('📤 Sending request data:', {
+        requestId: requestId,
+        status: newStatus,
+        response: adminResponse
+    });
     
     // Send update to backend
     fetch(`/api/user-requests/${requestId}`, {
@@ -361,7 +374,7 @@ function updateRequestStatus(requestId, newStatus) {
         console.log('📥 Update response data:', data);
         if (data.success) {
             // Show confirmation message
-            const statusMessage = newStatus === 'completed' ? 'approved' : 'rejected';
+            const statusMessage = newStatus === 'approved' ? 'approved' : 'rejected';
             showAdminAlert(`Request ${statusMessage} successfully!`, 'success');
             
             // Refresh display

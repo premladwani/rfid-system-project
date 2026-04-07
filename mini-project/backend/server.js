@@ -495,7 +495,7 @@ app.put('/api/user-requests/:id', (req, res) => {
     const requestId = req.params.id;
     const { status, response } = req.body;
     
-    if (!status || !['pending', 'completed', 'rejected'].includes(status)) {
+    if (!status || !['pending', 'approved', 'rejected'].includes(status)) {
         return res.status(400).json({ success: false, message: "Invalid status." });
     }
     
